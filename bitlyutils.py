@@ -37,8 +37,6 @@ df = pd.read_csv(os.path.expanduser('~/Desktop/urls.csv'))
 
 df.columns = [col.lower() for col in df.columns]
 
-r = shorten_url(row['url'], row['title'])
-
 # print(json.dumps(json.loads(df.to_json(orient='records')), indent=2))
 
 results = []
