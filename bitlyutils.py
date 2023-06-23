@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 import requests
 import json
-import time
-import sys
 import os
 import pandas as pd
 
@@ -14,16 +12,17 @@ def shorten_url(url, title):
     endpoint = 'https://api-ssl.bitly.com/v4/shorten' 
 
     headers = {
-    'Authorization': f'Bearer {ACCESS_TOKEN}',
-    'Content-Type': 'application/json',
+        'Authorization': f'Bearer {ACCESS_TOKEN}',
+        'Content-Type': 'application/json',
     } 
 
     data = {
-    "title": title,
-    "long_url": url
+        "title": title,
+        "long_url": url
     }
 
     r = requests.post(endpoint, headers=headers, data=json.dumps(data)) 
+    
     if r.status_code == 200:
         short_url = json.loads(r.content)['link']
         data['short_url'] = short_url
@@ -48,7 +47,6 @@ results = []
 
 docs = df.to_dict(orient='records')
 
-
 for i, doc in enumerate(docs):
     print(f"{i+1} of {len(df)}")
     print(doc.get('title'))
@@ -64,3 +62,7 @@ for i, doc in enumerate(docs):
 
 
 df_out = pd.DataFrame(results)
+
+df_out.to_csv('output.csv', index=False, encoding='utf-8')
+
+print('done and done')
