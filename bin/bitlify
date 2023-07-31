@@ -3,8 +3,8 @@
 """bitlify
 
 Usage:
-  bitlify <url> [--title=<title>] [--backhalf=<backhalf>]
-  bitlify --csv=<csv_file>
+  bitlify <url> [--title=<title>] [--backhalf=<backhalf>] [--outfile=<outfile>]
+  bitlify --csv=<csv_file> [--outfile=<outfile>]
   bitlify -h | --help
 
 Options:
@@ -12,6 +12,7 @@ Options:
   --title=<title>        Title associated with the URL [default: ].
   --backhalf=<backhalf>  Desired custom back-half for the short URL [default: ].
   --csv=<csv_file>       CSV file containing URLs to be shortened.
+  --outfile=<outfile>    Output file name [default: output.csv].
 
 """
 
@@ -36,7 +37,12 @@ def main(args):
         results = utils.process_url_list(df.to_dict(orient='records'), ACCESS_TOKEN)
             
         df_out = pd.DataFrame(results)
-        df_out.to_csv('output.csv', index=False, encoding='utf-8')
+        if args.get('--outfile'):
+            outfile = args['--outfile']
+        else:
+            outfile = 'output.csv'
+        df_out.to_csv(outfile, index=False, encoding='utf-8')
+        print(f"saved {len(df_out)} results to {outfile}")
     else:
         url = args['<url>']
         title = args.get('--title')
