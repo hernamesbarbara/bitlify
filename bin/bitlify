@@ -3,16 +3,18 @@
 """bitlify
 
 Usage:
-  bitlify <url> [--title=<title>] [--backhalf=<backhalf>] [--outfile=<outfile>]
-  bitlify --csv=<csv_file> [--outfile=<outfile>]
+  bitlify (URL | -C CSV [-T TITLE] [-B BACKHALF]) [-O OUTFILE]
   bitlify -h | --help
 
+Arguments:
+    URL                             URL to be shortened.
+
 Options:
-  -h --help              Show this screen.
-  --title=<title>        Title associated with the URL [default: ].
-  --backhalf=<backhalf>  Desired custom back-half for the short URL [default: ].
-  --csv=<csv_file>       CSV file containing URLs to be shortened.
-  --outfile=<outfile>    Output file name [default: output.csv].
+  -h --help                       Show this screen.
+  -T TITLE --title TITLE          Title associated with the URL [default: ].
+  -B BACKHALF --backhalf BACKHALF Desired custom back-half for the short URL [default: ].
+  -C CSV --csv CSV                CSV file containing URLs to be shortened.
+  -O OUTFILE --outfile OUTFILE    Output file name [default: output.csv].
 
 """
 
@@ -44,7 +46,7 @@ def main(args):
         df_out.to_csv(outfile, index=False, encoding='utf-8')
         print(f"saved {len(df_out)} results to {outfile}")
     else:
-        url = args['<url>']
+        url = args['URL']
         title = args.get('--title')
         backhalf = args.get('--backhalf')
         result = utils.process_single_url(url, ACCESS_TOKEN, title, backhalf)
