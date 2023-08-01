@@ -1,9 +1,9 @@
 install
 
 ```
-git clone git@github.com:hernamesbarbara/bitlyutils.git
+git clone git@github.com:hernamesbarbara/bitlify.git
 
-cd bitlyutils
+cd bitlify
 
 pip instsall . 
 ```
