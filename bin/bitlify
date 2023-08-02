@@ -17,7 +17,7 @@ Options:
   -O OUTFILE --outfile OUTFILE    Output file name [default: output.csv].
 
 """
-
+import sys
 import os
 import pandas as pd
 from docopt import docopt
@@ -44,13 +44,15 @@ def main(args):
         else:
             outfile = 'output.csv'
         df_out.to_csv(outfile, index=False, encoding='utf-8')
-        print(f"saved {len(df_out)} results to {outfile}")
+        sys.stdout.write(f"saved {len(df_out)} results to {outfile}")
+        sys.exit(0)
     else:
         url = args['URL']
         title = args.get('--title')
         backhalf = args.get('--backhalf')
         result = utils.process_single_url(url, ACCESS_TOKEN, title, backhalf)
-        print(f"{url} => {result['short_url']}")
+        sys.stdout.write(f"{result['short_url']}")
+        sys.exit(0)
 
 if __name__ == "__main__":
     arguments = docopt(__doc__)
