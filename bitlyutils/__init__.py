@@ -78,7 +78,7 @@ def process_single_url(url, access_token, title=None, backhalf=None):
     if data.get('id'):
         domain = data['id'].split('/')[0]
         if backhalf:
-            res_custom_short_url = customize_short_url_back_half(data['id'], domain+'/'+backhalf, access_token)
+            res_custom_short_url = customize_short_url_back_half(data['id'], domain+'/'+str(backhalf), access_token)
             if res_custom_short_url and res_custom_short_url.status_code == 200:
                 if res_custom_short_url.json().get('custom_bitlink'):
                     data['short_url'] = res_custom_short_url.json()['custom_bitlink']
@@ -101,8 +101,8 @@ def process_url_list(url_list, access_token):
         url = url_info['url']
         title = url_info.get('title') 
         backhalf = url_info.get('backhalf')
-        print(f"{i+1} of {len(url_list)}")
+        # print(f"{i+1} of {len(url_list)}")
         result = process_single_url(url, access_token, title, backhalf)
-        print(f"{url} => {result['short_url']}")
+        # print(f"{url} => {result['short_url']}")
         results.append(result)
     return results

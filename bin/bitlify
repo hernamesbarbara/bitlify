@@ -3,18 +3,19 @@
 """bitlify
 
 Usage:
-  bitlify (URL | -C CSV [-T TITLE] [-B BACKHALF]) [-O OUTFILE]
-  bitlify -h | --help
+  bitlify --csv=CSV [--outfile=OUTFILE]
+  bitlify URL [--title=TITLE] [--backhalf=BACKHALF] [--outfile=OUTFILE]
+  bitlify -H | --help
 
 Arguments:
-    URL                             URL to be shortened.
+    URL                               URL to shorten.
+    -C CSV --csv=CSV                  CSV rows with urls to shorten and cols: url,title,backhalf.
+    -T TITLE --title=TITLE            Title associated with the URL.
+    -B BACKHALF --backhalf=BACKHALF   Custom back-half for the short URL.
+    -O OUTFILE --outfile=OUTFILE      Output file name [default: output.csv].
 
 Options:
-  -h --help                       Show this screen.
-  -T TITLE --title TITLE          Title associated with the URL [default: ].
-  -B BACKHALF --backhalf BACKHALF Desired custom back-half for the short URL [default: ].
-  -C CSV --csv CSV                CSV file containing URLs to be shortened.
-  -O OUTFILE --outfile OUTFILE    Output file name [default: output.csv].
+  -H --help                           Show this screen.
 
 """
 import sys
@@ -47,7 +48,13 @@ def main(args):
         sys.stdout.write(f"saved {len(df_out)} results to {outfile}")
         sys.exit(0)
     else:
-        url = args['URL']
+        if args.get('URL'):
+            url = args.get('URL')
+        elif args.get('url'):
+            url = args.get('url')
+        else:
+            sys.stdout.write(f"URL is required")
+            sys.exit(1)
         title = args.get('--title')
         backhalf = args.get('--backhalf')
         result = utils.process_single_url(url, ACCESS_TOKEN, title, backhalf)
